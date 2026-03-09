@@ -98,6 +98,19 @@
             font-weight: 600;
             color: #1b2b34;
         }
+
+        a{
+            text-decoration: none;
+        }
+
+        .botao-inicio{
+            text-decoration: none;
+            color: white;
+        }
+        .botao-inicio:hover{
+            text-decoration: none;
+            color: white;
+        }
     </style>
 
 </head>
@@ -115,7 +128,9 @@
             </button>
 
             <span class="navbar-brand mb-0 h1">
+                <a href="#" class="botao-inicio">
                 <i class="fa-solid fa-church"></i> Catequese Campina
+                </a>
             </span>
 
         </div>
@@ -142,6 +157,12 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="#">
+                        <i class="fa-solid fa-house"></i>
+                        Menu Inicial
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
                         <i class="fa-solid fa-clipboard-check"></i>
                         Fazer Chamada
                     </a>
@@ -155,7 +176,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="./Turmas/">
                         <i class="fa-solid fa-users"></i>
                         Turmas
                     </a>
@@ -226,15 +247,15 @@
             </div>
 
             <div class="col-md-6">
+                <a href="./Turmas/index.php">
+                    <div class="card card-menu p-4 text-center">
 
-                <div class="card card-menu p-4 text-center">
+                        <i class="fa-solid fa-users"></i>
 
-                    <i class="fa-solid fa-users"></i>
+                        <h5>Turmas</h5>
 
-                    <h5>Turmas</h5>
-
-                </div>
-
+                    </div>
+                </a>
             </div>
 
             <div class="col-md-6">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09/03/2026 às 02:20
+-- Tempo de geração: 10/03/2026 às 14:13
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -24,6 +24,20 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `tab_catequizando`
+--
+
+CREATE TABLE `tab_catequizando` (
+  `id_catequizando` int(11) NOT NULL,
+  `nome_catequizando` varchar(100) NOT NULL,
+  `data_nascimento` date NOT NULL,
+  `telefone_responsavel` varchar(20) DEFAULT NULL,
+  `turma_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `tab_turma`
 --
 
@@ -39,8 +53,9 @@ CREATE TABLE `tab_turma` (
 --
 
 INSERT INTO `tab_turma` (`id_turma`, `etapa_turma`, `ano_turma`, `catequista_id`) VALUES
-(4, 3, '2026', 1),
-(6, 2, '2026', 1);
+(4, 3, '2026', 4),
+(6, 2, '2026', 1),
+(9, 4, '2025', 1);
 
 -- --------------------------------------------------------
 
@@ -69,6 +84,13 @@ INSERT INTO `tab_usuario` (`id_catequista`, `nome_catequista`, `email_catequista
 --
 
 --
+-- Índices de tabela `tab_catequizando`
+--
+ALTER TABLE `tab_catequizando`
+  ADD PRIMARY KEY (`id_catequizando`),
+  ADD KEY `turma_id` (`turma_id`);
+
+--
 -- Índices de tabela `tab_turma`
 --
 ALTER TABLE `tab_turma`
@@ -87,10 +109,16 @@ ALTER TABLE `tab_usuario`
 --
 
 --
+-- AUTO_INCREMENT de tabela `tab_catequizando`
+--
+ALTER TABLE `tab_catequizando`
+  MODIFY `id_catequizando` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `tab_turma`
 --
 ALTER TABLE `tab_turma`
-  MODIFY `id_turma` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_turma` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `tab_usuario`
@@ -101,6 +129,12 @@ ALTER TABLE `tab_usuario`
 --
 -- Restrições para tabelas despejadas
 --
+
+--
+-- Restrições para tabelas `tab_catequizando`
+--
+ALTER TABLE `tab_catequizando`
+  ADD CONSTRAINT `tab_catequizando_ibfk_1` FOREIGN KEY (`turma_id`) REFERENCES `tab_turma` (`id_turma`);
 
 --
 -- Restrições para tabelas `tab_turma`

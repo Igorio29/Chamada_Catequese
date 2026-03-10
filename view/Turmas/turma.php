@@ -9,6 +9,8 @@ $sql =  "SELECT * FROM tab_turma t
 ";
 $resultTurma = $conn->query($sql);
 $i = $resultTurma->fetch_assoc();
+
+include "../../controller/catequizando/catequizandoForTurma.php"
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -184,7 +186,7 @@ $i = $resultTurma->fetch_assoc();
     if (isset($_GET['sucesso']) && $_GET['sucesso'] == "true") {
     ?>
         <div id="msg-sucesso" class="alert-sucesso">
-            Turma criada com sucesso!
+            Catequizando criado com sucesso!
         </div>
     <?php
     }
@@ -193,7 +195,7 @@ $i = $resultTurma->fetch_assoc();
     if (isset($_GET['delete']) && $_GET['delete'] == "true") {
     ?>
         <div id="msg-sucesso" class="alert-sucesso-delete">
-            Turma Deletada com sucesso!
+            Catequizando Deletado com sucesso!
         </div>
     <?php
     }
@@ -202,7 +204,7 @@ $i = $resultTurma->fetch_assoc();
     if (isset($_GET['edit']) && $_GET['edit'] == "true") {
     ?>
         <div id="msg-sucesso" class="alert-sucesso-update">
-            Turma Editada com sucesso!
+            Catequizando Editado com sucesso!
         </div>
     <?php
     }
@@ -402,23 +404,14 @@ $i = $resultTurma->fetch_assoc();
                 </tr>
             </thead>
             <tbody>
+                <?php foreach ($i as $catequizando){ ?>
                 <tr>
                     <th scope="row">1</th>
                     <td>Mark</td>
                     <td>Otto</td>
                     <td>@mdo</td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                <?php } ?>
             </tbody>
         </table>
     </main>

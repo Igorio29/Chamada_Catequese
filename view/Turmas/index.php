@@ -1,5 +1,12 @@
 <?php
 session_start();
+
+if (time() > $_SESSION['expire']) {
+    session_destroy();
+    header("Location: index.php");
+    exit;
+}
+
 $catequista_id = $_SESSION['id'];
 include("../../controller/TurmasController/getTurmas.php");
 $result = $conn->query($sql);
@@ -299,14 +306,14 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="../Catequizandos/index.php">
                         <i class="fa-solid fa-user"></i>
                         Catequizandos
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="./index.php">
+                    <a class="nav-link" href="#">
                         <i class="fa-solid fa-users"></i>
                         Turmas
                     </a>

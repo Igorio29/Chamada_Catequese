@@ -20,8 +20,8 @@ if ($result->num_rows > 0) {
         $_SESSION['usuario'] = $dados['nome_catequista'];
         $_SESSION['email'] = $dados['email_catequista'];
         $_SESSION['id'] = $dados['id_catequista'];
-
-        header("Location:"."../../View/MenuInicial.php");
+        $_SESSION['expire'] = time() + 86400;
+        header("Location:" . "../../View/MenuInicial.php");
         exit();
     } else {
         header("Location:" . "../../View/index.php?erro=1&email=" . urlencode($email));
@@ -30,4 +30,3 @@ if ($result->num_rows > 0) {
 } else {
     header("Location:" . "../../View/index.php?erro=2");
 }
-?>

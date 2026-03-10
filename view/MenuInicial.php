@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (time() > $_SESSION['expire']) {
+    session_destroy();
+    header("Location: index.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -99,15 +107,16 @@
             color: #1b2b34;
         }
 
-        a{
+        a {
             text-decoration: none;
         }
 
-        .botao-inicio{
+        .botao-inicio {
             text-decoration: none;
             color: white;
         }
-        .botao-inicio:hover{
+
+        .botao-inicio:hover {
             text-decoration: none;
             color: white;
         }
@@ -129,7 +138,7 @@
 
             <span class="navbar-brand mb-0 h1">
                 <a href="#" class="botao-inicio">
-                <i class="fa-solid fa-church"></i> Catequese Campina
+                    <i class="fa-solid fa-church"></i> Catequese Campina
                 </a>
             </span>
 
@@ -169,7 +178,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="./Catequizandos/index.php">
                         <i class="fa-solid fa-user"></i>
                         Catequizandos
                     </a>
@@ -235,14 +244,16 @@
             </div>
 
             <div class="col-md-6">
+                <a href="./Catequizandos/index.php">
+                    <div class="card card-menu p-4 text-center">
 
-                <div class="card card-menu p-4 text-center">
+                        <i class="fa-solid fa-user"></i>
 
-                    <i class="fa-solid fa-user"></i>
+                        <h5>Catequizandos</h5>
 
-                    <h5>Catequizandos</h5>
+                    </div>
 
-                </div>
+                </a>
 
             </div>
 

@@ -7,28 +7,26 @@ if (time() > $_SESSION['expire']) {
     exit;
 }
 
+if(!isset($_SESSION['id'])){
+    header("Location: ../index.php");
+    exit;
+}
 $catequista_id = $_SESSION['id'];
 include "../../conect.php";
-$turma_id = $_GET['id'];
 
-$sql =  "SELECT * FROM tab_turma t
-        JOIN tab_usuario u ON u.id_catequista = t.catequista_id
-        WHERE t.id_turma = '$turma_id'
-";
-$resultTurma = $conn->query($sql);
-$i = $resultTurma->fetch_assoc();
+include "../../controller/catequizando/catequizandoAll.php";
 
-include "../../controller/catequizando/catequizandoForTurma.php";
-$resultCat = $conn->query($sqlCat);
-$catequizando = $resultCat->fetch_all(MYSQLI_ASSOC);
+$stmt = $conn->prepare("
+SELECT t.etapa_turma, u.nome_catequista, t.id_turma 
+FROM tab_turma t
+JOIN tab_usuario u ON u.id_catequista = t.catequista_id
+WHERE t.catequista_id = ?
+");
 
-$sqlTurmaAll =  "SELECT t.etapa_turma, u.nome_catequista, t.id_turma FROM tab_turma t
-        JOIN tab_usuario u ON u.id_catequista = t.catequista_id
-";
-$resultTurmaAll = $conn->query($sqlTurmaAll);
-$t = $resultTurmaAll->fetch_all(MYSQLI_ASSOC);
-
-
+$stmt->bind_param("i", $catequista_id);
+$stmt->execute();
+$resultTurmaAll = $stmt->get_result();
+$turma = $resultTurmaAll->fetch_all(MYSQLI_ASSOC);
 $num_chamada = 1;
 ?>
 <!DOCTYPE html>
@@ -37,7 +35,7 @@ $num_chamada = 1;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($i['etapa_turma']) ?>ª Etapa - <?= htmlspecialchars($i['ano_turma']) ?></title>
+    <title>Catequizandos</title>
     <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/fontawesome-free-7.2.0-web/css/all.css">
     <style>
@@ -187,16 +185,6 @@ $num_chamada = 1;
             opacity: 1;
         }
 
-        .alert-sucesso.show {
-            opacity: 0.8;
-            transform: translateY(0);
-            cursor: pointer;
-        }
-
-        .alert-sucesso.show:hover {
-            opacity: 1;
-        }
-
         a {
             text-decoration: none;
         }
@@ -295,14 +283,14 @@ $num_chamada = 1;
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="../Catequizandos/index.php">
+                    <a class="nav-link" href="#">
                         <i class="fa-solid fa-user"></i>
                         Catequizandos
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="./index.php">
+                    <a class="nav-link" href="../Turmas/index.php">
                         <i class="fa-solid fa-users"></i>
                         Turmas
                     </a>
@@ -336,14 +324,10 @@ $num_chamada = 1;
     </div>
     <main class="container">
         <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
-            <h2>Turma da Catequese </h2>
-            <?php
-            if ($catequista_id == $i['id_catequista']) {
-            ?>
+            <h2>Catequizandos </h2>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novoAluno">
                     Novo Catequizando
                 </button>
-            <?php } ?>
         </div>
         <div class="modal fade" id="novoAluno">
 
@@ -386,12 +370,21 @@ $num_chamada = 1;
                                 <input type="text" class="form-control" id="telefone" placeholder="(41) 00000-0000" name="tel">
 
                             </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Turma</label>
 
-
-
+                                <select name="turma_id" class="form-select">
+                                    <?php foreach ($t as $u): ?>
+                                        <option value="<?= $u['id_turma'] ?>">
+                                            <?= $u['etapa_turma'] ?>º Etapa -
+                                            <?= $u['nome_catequista'] ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
                         </div>
-                        <input type="hidden" name="turma_id" value="<?= $turma_id ?>">
-                        <input type="hidden" name="tela" value="2">
+                        <input type="hidden" name="tela" value="1">
                         <div class="modal-footer">
 
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -400,7 +393,7 @@ $num_chamada = 1;
 
                             <button type="submit" class="btn btn-primary"
                                 onclick="this.disabled=true; this.form.submit();">
-                                Salvar Turma
+                                Criar Catequizando
                             </button>
 
                         </div>
@@ -454,25 +447,23 @@ $num_chamada = 1;
 
                             </div>
                             <div class="mb-3">
-                                
 
                                 <label class="form-label">Turma</label>
 
                                 <select name="turma_id" id="edit_turma" class="form-select">
-                                    <?php foreach ($t as $u): ?>
-                                        <option value="<?= $u['id_turma'] ?>">
-                                            <?= $u['etapa_turma'] ?>º Etapa -
-                                            <?= $u['nome_catequista'] ?>
+                                    <?php foreach ($turma as $t): ?>
+                                        <option value="<?= $t['id_turma'] ?>">
+                                            <?= $t['etapa_turma'] ?>º Etapa -
+                                            <?= $t['nome_catequista'] ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
 
                             </div>
                         </div>
-                        <input type="hidden" name="tela" value="2">
                         <input type="hidden" name="id_catequizando" id="edit_id">
                         <input type="hidden" name="turma_atual" id="edit_turma_atual">
-
+                        <input type="hidden" name="tela" value="1"> 
                         <div class="modal-footer">
 
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -481,7 +472,7 @@ $num_chamada = 1;
 
                             <button type="submit" class="btn btn-primary"
                                 onclick="this.disabled=true; this.form.submit();">
-                                Salvar Turma
+                                Salvar Catequizando
                             </button>
 
                         </div>
@@ -493,21 +484,13 @@ $num_chamada = 1;
             </div>
 
         </div>
-        <div class="etapa">
-            <h5 class="card-title">
-                <?= htmlspecialchars($i['etapa_turma']) ?>ª Etapa - <?= htmlspecialchars($i['ano_turma']) ?>
-            </h5>
-        </div>
-        <p class="card-text text-muted">
-            Catequista: <?= htmlspecialchars($i['nome_catequista']) ?>
-        </p>
         <table class="table table-hover mt-5">
             <thead class="table-dark">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nome</th>
-                    <th scope="col">Data Nascimento</th>
-                    <th scope="col">Telefone</th>
+                    <th scope="col">Turma</th>
+                    <th scope="col">Catequista</th>
                     <th scope="col">Ação</th>
                 </tr>
             </thead>
@@ -516,11 +499,11 @@ $num_chamada = 1;
                     <tr>
                         <th scope="row"><?php echo $num_chamada++; ?></th>
                         <td><?= $b['nome_catequizando'] ?></td>
-                        <td><?= date('d/m/Y', strtotime($b['data_nascimento'])) ?></td>
-                        <td><?= $b['telefone_responsavel'] ?></td>
+                        <td><?= ($b['etapa_turma']) ?>º Etapa</td>
+                        <td><?= $b['nome_catequista'] ?></td>
                         <td>
                             <?php
-                            if ($catequista_id == $i['id_catequista']) {
+                            if ($catequista_id == $b['catequista_id']) {
                             ?>
                                 <a href="#"
                                     data-bs-toggle="modal"
@@ -533,7 +516,7 @@ $num_chamada = 1;
                                     <i class="fa-solid fa-pen-to-square" style="color: rgb(116,192,252);"></i>
                                 </a>
 
-                                <a href="../../controller/catequizando/deleteCatequizando.php?id=<?= $b['id_catequizando'] ?>&turma_id=<?= $turma_id ?>&tela=2"> <i class="fa-solid fa-trash" style="color: rgb(232,75,75);"></i>
+                                <a href="../../controller/catequizando/deleteCatequizando.php?id=<?= $b['id_catequizando'] ?>&tela=1"> <i class="fa-solid fa-trash" style="color: rgb(232,75,75);"></i>
                                 </a>
                             <?php } ?>
                         </td>
@@ -547,6 +530,7 @@ $num_chamada = 1;
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script>
         $('#telefone').mask('(00) 00000-0000');
+        $('#edit_telefone').mask('(00) 00000-0000');
         document.addEventListener("DOMContentLoaded", function() {
 
             const msg = document.getElementById("msg-sucesso");
@@ -567,6 +551,29 @@ $num_chamada = 1;
                 });
 
             }
+
+            const editarModal = document.getElementById('editarCatequizandomodal');
+
+            editarModal.addEventListener('show.bs.modal', function(event) {
+
+                const button = event.relatedTarget;
+
+                const id = button.getAttribute('data-id');
+                console.log(id);
+                const nome = button.getAttribute('data-nome');
+                console.log(nome);
+                const nascimento = button.getAttribute('data-nascimento');
+                const telefone = button.getAttribute('data-telefone');
+                const turma = button.getAttribute('data-turma');
+
+                document.getElementById('edit_id').value = id;
+                document.getElementById('edit_nome').value = nome;
+                document.getElementById('edit_nascimento').value = nascimento;
+                document.getElementById('edit_telefone').value = telefone;
+                document.getElementById('edit_turma').value = turma;
+                document.getElementById('edit_turma_atual').value = turma;
+
+            });
 
         });
 
@@ -599,32 +606,6 @@ $num_chamada = 1;
          }*/
 
 
-        document.addEventListener("DOMContentLoaded", function() {
-
-            const editarModal = document.getElementById('editarCatequizandomodal');
-
-            editarModal.addEventListener('show.bs.modal', function(event) {
-
-                const button = event.relatedTarget;
-
-                const id = button.getAttribute('data-id');
-                console.log(id);
-                const nome = button.getAttribute('data-nome');
-                console.log(nome);
-                const nascimento = button.getAttribute('data-nascimento');
-                const telefone = button.getAttribute('data-telefone');
-                const turma = button.getAttribute('data-turma');
-
-                document.getElementById('edit_id').value = id;
-                document.getElementById('edit_nome').value = nome;
-                document.getElementById('edit_nascimento').value = nascimento;
-                document.getElementById('edit_telefone').value = telefone;
-                document.getElementById('edit_turma').value = turma;
-                document.getElementById('edit_turma_atual').value = turma;
-
-            });
-
-        });
     </script>
 </body>
 

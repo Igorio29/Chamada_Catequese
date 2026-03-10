@@ -1,16 +1,28 @@
 <?php
-
+session_start();
+$catequista_id = $_SESSION['id'];
 include "../../conect.php";
 $turma_id = $_GET['id'];
 
 $sql =  "SELECT * FROM tab_turma t
-        JOIN tab_usuario u ON id_catequista = catequista_id
-        WHERE id_turma = '$turma_id'
+        JOIN tab_usuario u ON u.id_catequista = t.catequista_id
+        WHERE t.id_turma = '$turma_id'
 ";
 $resultTurma = $conn->query($sql);
 $i = $resultTurma->fetch_assoc();
 
-include "../../controller/catequizando/catequizandoForTurma.php"
+include "../../controller/catequizando/catequizandoForTurma.php";
+$resultCat = $conn->query($sqlCat);
+$catequizando = $resultCat->fetch_all(MYSQLI_ASSOC);
+
+$sqlTurmaAll =  "SELECT t.etapa_turma, u.nome_catequista, t.id_turma FROM tab_turma t
+        JOIN tab_usuario u ON u.id_catequista = t.catequista_id
+";
+$resultTurmaAll = $conn->query($sqlTurmaAll);
+$t = $resultTurmaAll->fetch_all(MYSQLI_ASSOC);
+
+
+$num_chamada = 1;
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -177,13 +189,17 @@ include "../../controller/catequizando/catequizandoForTurma.php"
         .alert-sucesso.show:hover {
             opacity: 1;
         }
+
+        a{
+            text-decoration: none;
+        }
     </style>
 </head>
 
 <body>
 
     <?php
-    if (isset($_GET['sucesso']) && $_GET['sucesso'] == "true") {
+    if (isset($_GET['sucesso']) && $_GET['sucesso'] === "true") {
     ?>
         <div id="msg-sucesso" class="alert-sucesso">
             Catequizando criado com sucesso!
@@ -386,6 +402,85 @@ include "../../controller/catequizando/catequizandoForTurma.php"
             </div>
 
         </div>
+        <div class="modal fade" id="editarCatequizandomodal">
+
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+
+                        <h5 class="modal-title">Editar Catequizando</h5>
+
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+
+                    </div>
+
+
+                    <form action="../../controller/catequizando/updateCatequizando.php" method="POST">
+
+                        <div class="modal-body">
+
+                            <div class="mb-3">
+
+                                <label class="form-label">Nome</label>
+
+                                <input type="text" class="form-control" name="nome" id="edit_nome">
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">Data Nascimento</label>
+
+                                <input type="date" class="form-control" name="dataNascimento" id="edit_nascimento">
+
+                            </div>
+                            <div class="mb-3">
+
+                                <label class="form-label">Telefone do Responsavel</label>
+
+                                <input type="text" class="form-control" id="edit_telefone" placeholder="(41) 00000-0000" name="tel">
+
+                            </div>
+                            <div class="mb-3">
+
+                                <label class="form-label">Turma</label>
+
+                                <select name="turma_id" id="edit_turma" class="form-select">
+                                    <?php foreach ($t as $u): ?>
+                                        <option value="<?= $u['id_turma'] ?>">
+                                            <?= $u['etapa_turma'] ?>º Etapa -
+                                            <?= $u['nome_catequista'] ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+
+                            </div>
+                        </div>
+                        <input type="hidden" name="id_catequizando" id="edit_id">
+                        <input type="hidden" name="turma_atual" id="edit_turma_atual">
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                Cancelar
+                            </button>
+
+                            <button type="submit" class="btn btn-primary"
+                                onclick="this.disabled=true; this.form.submit();">
+                                Salvar Turma
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
         <div class="etapa">
             <h5 class="card-title">
                 <?= htmlspecialchars($i['etapa_turma']) ?>ª Etapa - <?= htmlspecialchars($i['ano_turma']) ?>
@@ -401,16 +496,36 @@ include "../../controller/catequizando/catequizandoForTurma.php"
                     <th scope="col">Nome</th>
                     <th scope="col">Data Nascimento</th>
                     <th scope="col">Telefone</th>
+                    <th scope="col">Ação</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($i as $catequizando){ ?>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
+                <?php foreach ($catequizando as $b) { ?>
+                    <tr>
+                        <th scope="row"><?php echo $num_chamada++; ?></th>
+                        <td><?= $b['nome_catequizando'] ?></td>
+                        <td><?= date('d/m/Y', strtotime($b['data_nascimento'])) ?></td>
+                        <td><?= $b['telefone_responsavel'] ?></td>
+                        <td>
+                            <?php
+                            if ($catequista_id == $i['id_catequista']) {
+                            ?>
+                                <a href="#"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editarCatequizandomodal"
+                                    data-id="<?= $b['id_catequizando'] ?>"
+                                    data-nome="<?= $b['nome_catequizando'] ?>"
+                                    data-nascimento="<?= $b['data_nascimento'] ?>"
+                                    data-telefone="<?= $b['telefone_responsavel'] ?>"
+                                    data-turma="<?= $b['turma_id'] ?>">
+                                    <i class="fa-solid fa-pen-to-square" style="color: rgb(116,192,252);"></i>
+                                </a>
+
+                                <a href="../../controller/catequizando/deleteCatequizando.php?id=<?= $b['id_catequizando'] ?>&turma_id=<?= $turma_id ?>">                                    <i class="fa-solid fa-trash" style="color: rgb(232,75,75);"></i>
+                                </a>
+                            <?php } ?>
+                        </td>
+                    </tr>
                 <?php } ?>
             </tbody>
         </table>
@@ -420,6 +535,84 @@ include "../../controller/catequizando/catequizandoForTurma.php"
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script>
         $('#telefone').mask('(00) 00000-0000');
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const msg = document.getElementById("msg-sucesso");
+
+            if (msg) {
+
+                setTimeout(() => {
+                    msg.classList.add("show");
+                }, 100);
+
+                setTimeout(() => {
+                    msg.classList.remove("show");
+                }, 5000);
+
+                // desaparecer ao clicar
+                msg.addEventListener("click", function() {
+                    msg.classList.remove("show");
+                });
+
+            }
+
+        });
+
+
+        //REMOVE A MENSAGEM DO URL
+
+        const url = new URL(window.location);
+
+        url.searchParams.delete("sucesso");
+        url.searchParams.delete("success");
+        url.searchParams.delete("delete");
+        url.searchParams.delete("edit");
+
+        window.history.replaceState({}, document.title, url);
+
+        /*f (window.location.search.includes("sucesso=true")) {
+             window.history.replaceState({}, document.title, window.location.pathname);
+         }
+
+         if (window.location.search.includes("success=false")) {
+             window.history.replaceState({}, document.title, window.location.pathname);
+         }
+
+         if (window.location.search.includes("delete=true")) {
+             window.history.replaceState({}, document.title, window.location.pathname);
+         }
+
+         if (window.location.search.includes("edit=true")) {
+             window.history.replaceState({}, document.title, window.location.pathname);
+         }*/
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const editarModal = document.getElementById('editarCatequizandomodal');
+
+            editarModal.addEventListener('show.bs.modal', function(event) {
+
+                const button = event.relatedTarget;
+
+                const id = button.getAttribute('data-id');
+                console.log(id);
+                const nome = button.getAttribute('data-nome');
+                console.log(nome);
+                const nascimento = button.getAttribute('data-nascimento');
+                const telefone = button.getAttribute('data-telefone');
+                const turma = button.getAttribute('data-turma');
+
+                document.getElementById('edit_id').value = id;
+                document.getElementById('edit_nome').value = nome;
+                document.getElementById('edit_nascimento').value = nascimento;
+                document.getElementById('edit_telefone').value = telefone;
+                document.getElementById('edit_turma').value = turma;
+                document.getElementById('edit_turma_atual').value = turma;
+
+            });
+
+        });
     </script>
 </body>
 

@@ -306,7 +306,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="./index.php">
                         <i class="fa-solid fa-users"></i>
                         Turmas
                     </a>

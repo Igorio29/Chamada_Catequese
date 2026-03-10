@@ -190,7 +190,7 @@ $num_chamada = 1;
             opacity: 1;
         }
 
-        a{
+        a {
             text-decoration: none;
         }
     </style>
@@ -295,7 +295,7 @@ $num_chamada = 1;
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="./index.php">
                         <i class="fa-solid fa-users"></i>
                         Turmas
                     </a>
@@ -330,10 +330,13 @@ $num_chamada = 1;
     <main class="container">
         <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
             <h2>Turmas da Catequese </h2>
-
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novoAluno">
-                Novo Catequizando
-            </button>
+            <?php
+            if ($catequista_id == $i['id_catequista']) {
+            ?>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novoAluno">
+                    Novo Catequizando
+                </button>
+            <?php } ?>
         </div>
         <div class="modal fade" id="novoAluno">
 
@@ -521,7 +524,7 @@ $num_chamada = 1;
                                     <i class="fa-solid fa-pen-to-square" style="color: rgb(116,192,252);"></i>
                                 </a>
 
-                                <a href="../../controller/catequizando/deleteCatequizando.php?id=<?= $b['id_catequizando'] ?>&turma_id=<?= $turma_id ?>">                                    <i class="fa-solid fa-trash" style="color: rgb(232,75,75);"></i>
+                                <a href="../../controller/catequizando/deleteCatequizando.php?id=<?= $b['id_catequizando'] ?>&turma_id=<?= $turma_id ?>"> <i class="fa-solid fa-trash" style="color: rgb(232,75,75);"></i>
                                 </a>
                             <?php } ?>
                         </td>

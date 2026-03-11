@@ -5,6 +5,10 @@ if (time() > $_SESSION['expire']) {
     header("Location: index.php");
     exit;
 }
+
+// Atual
+date_default_timezone_set("America/Sao_Paulo");
+$hora = date("H");
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -120,6 +124,10 @@ if (time() > $_SESSION['expire']) {
             text-decoration: none;
             color: white;
         }
+
+        .a-fazer {
+            background-color: red;
+        }
     </style>
 
 </head>
@@ -170,7 +178,7 @@ if (time() > $_SESSION['expire']) {
                         Menu Inicial
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item a-fazer">
                     <a class="nav-link" href="#">
                         <i class="fa-solid fa-clipboard-check"></i>
                         Fazer Chamada
@@ -191,14 +199,14 @@ if (time() > $_SESSION['expire']) {
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item a-fazer">
                     <a class="nav-link" href="#">
                         <i class="fa-solid fa-calendar"></i>
                         Encontros
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item a-fazer">
                     <a class="nav-link" href="#">
                         <i class="fa-solid fa-chart-column"></i>
                         Relatórios
@@ -221,7 +229,15 @@ if (time() > $_SESSION['expire']) {
     <!-- CONTEUDO -->
 
     <div class="container mt-5">
-<h1 class="page-title">Bom dia, <?= $_SESSION["usuario"] ?>!</h1>
+<h1 class="page-title"><?php
+        if ($hora < 12) {
+            echo "Bom dia, " . $_SESSION['usuario'] . "!";
+        } else if ($hora < 19) {
+            echo "Boa tarde, " . $_SESSION['usuario'] . "!";
+        } else {
+            echo "Boa noite, " . $_SESSION['usuario'] . "!";
+        }
+        ?></h1>
         <div class="mb-4">
 
             <h2 class="page-title">Painel do Catequista</h2>

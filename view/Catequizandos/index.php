@@ -7,7 +7,7 @@ if (time() > $_SESSION['expire']) {
     exit;
 }
 
-if(!isset($_SESSION['id'])){
+if (!isset($_SESSION['id'])) {
     header("Location: ../index.php");
     exit;
 }
@@ -188,6 +188,10 @@ $num_chamada = 1;
         a {
             text-decoration: none;
         }
+
+        .a-fazer {
+            background-color: red;
+        }
     </style>
 </head>
 
@@ -275,7 +279,7 @@ $num_chamada = 1;
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item a-fazer">
                     <a class="nav-link" href="#">
                         <i class="fa-solid fa-clipboard-check"></i>
                         Fazer Chamada
@@ -296,14 +300,14 @@ $num_chamada = 1;
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item a-fazer">
                     <a class="nav-link" href="#">
                         <i class="fa-solid fa-calendar"></i>
                         Encontros
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item a-fazer">
                     <a class="nav-link" href="#">
                         <i class="fa-solid fa-chart-column"></i>
                         Relatórios
@@ -325,9 +329,9 @@ $num_chamada = 1;
     <main class="container">
         <div class="d-flex justify-content-between align-items-center mb-4 mt-5">
             <h2>Catequizandos </h2>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novoAluno">
-                    Novo Catequizando
-                </button>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novoAluno">
+                Novo Catequizando
+            </button>
         </div>
         <div class="modal fade" id="novoAluno">
 
@@ -370,12 +374,12 @@ $num_chamada = 1;
                                 <input type="text" class="form-control" id="telefone" placeholder="(41) 00000-0000" name="tel">
 
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label class="form-label">Turma</label>
 
                                 <select name="turma_id" class="form-select">
-                                    <?php foreach ($t as $u): ?>
+                                    <?php foreach ($turma as $u): ?>
                                         <option value="<?= $u['id_turma'] ?>">
                                             <?= $u['etapa_turma'] ?>º Etapa -
                                             <?= $u['nome_catequista'] ?>
@@ -463,7 +467,7 @@ $num_chamada = 1;
                         </div>
                         <input type="hidden" name="id_catequizando" id="edit_id">
                         <input type="hidden" name="turma_atual" id="edit_turma_atual">
-                        <input type="hidden" name="tela" value="1"> 
+                        <input type="hidden" name="tela" value="1">
                         <div class="modal-footer">
 
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -484,46 +488,48 @@ $num_chamada = 1;
             </div>
 
         </div>
-        <table class="table table-hover mt-5">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Turma</th>
-                    <th scope="col">Catequista</th>
-                    <th scope="col">Ação</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($catequizando as $b) { ?>
+        <div class="table-responsive">
+            <table class="table table-hover mt-5">
+                <thead class="table-dark">
                     <tr>
-                        <th scope="row"><?php echo $num_chamada++; ?></th>
-                        <td><?= $b['nome_catequizando'] ?></td>
-                        <td><?= ($b['etapa_turma']) ?>º Etapa</td>
-                        <td><?= $b['nome_catequista'] ?></td>
-                        <td>
-                            <?php
-                            if ($catequista_id == $b['catequista_id']) {
-                            ?>
-                                <a href="#"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#editarCatequizandomodal"
-                                    data-id="<?= $b['id_catequizando'] ?>"
-                                    data-nome="<?= $b['nome_catequizando'] ?>"
-                                    data-nascimento="<?= $b['data_nascimento'] ?>"
-                                    data-telefone="<?= $b['telefone_responsavel'] ?>"
-                                    data-turma="<?= $b['turma_id'] ?>">
-                                    <i class="fa-solid fa-pen-to-square" style="color: rgb(116,192,252);"></i>
-                                </a>
-
-                                <a href="../../controller/catequizando/deleteCatequizando.php?id=<?= $b['id_catequizando'] ?>&tela=1"> <i class="fa-solid fa-trash" style="color: rgb(232,75,75);"></i>
-                                </a>
-                            <?php } ?>
-                        </td>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Turma</th>
+                        <th scope="col">Catequista</th>
+                        <th scope="col">Ação</th>
                     </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($catequizando as $b) { ?>
+                        <tr>
+                            <th scope="row"><?php echo $num_chamada++; ?></th>
+                            <td><?= $b['nome_catequizando'] ?></td>
+                            <td><?= ($b['etapa_turma']) ?>º Etapa</td>
+                            <td><?= $b['nome_catequista'] ?></td>
+                            <td>
+                                <?php
+                                if ($catequista_id == $b['catequista_id']) {
+                                ?>
+                                    <a href="#"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editarCatequizandomodal"
+                                        data-id="<?= $b['id_catequizando'] ?>"
+                                        data-nome="<?= $b['nome_catequizando'] ?>"
+                                        data-nascimento="<?= $b['data_nascimento'] ?>"
+                                        data-telefone="<?= $b['telefone_responsavel'] ?>"
+                                        data-turma="<?= $b['turma_id'] ?>">
+                                        <i class="fa-solid fa-pen-to-square" style="color: rgb(116,192,252);"></i>
+                                    </a>
+
+                                    <a href="../../controller/catequizando/deleteCatequizando.php?id=<?= $b['id_catequizando'] ?>&tela=1"> <i class="fa-solid fa-trash" style="color: rgb(232,75,75);"></i>
+                                    </a>
+                                <?php } ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
     </main>
     <script src="../../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -604,8 +610,6 @@ $num_chamada = 1;
          if (window.location.search.includes("edit=true")) {
              window.history.replaceState({}, document.title, window.location.pathname);
          }*/
-
-
     </script>
 </body>
 

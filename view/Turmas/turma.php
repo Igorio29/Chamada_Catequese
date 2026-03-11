@@ -200,6 +200,10 @@ $num_chamada = 1;
         a {
             text-decoration: none;
         }
+
+        .a-fazer {
+            background-color: red;
+        }
     </style>
 </head>
 
@@ -287,7 +291,7 @@ $num_chamada = 1;
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item a-fazer">
                     <a class="nav-link" href="#">
                         <i class="fa-solid fa-clipboard-check"></i>
                         Fazer Chamada
@@ -308,14 +312,14 @@ $num_chamada = 1;
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item a-fazer">
                     <a class="nav-link" href="#">
                         <i class="fa-solid fa-calendar"></i>
                         Encontros
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item a-fazer">
                     <a class="nav-link" href="#">
                         <i class="fa-solid fa-chart-column"></i>
                         Relatórios
@@ -547,6 +551,7 @@ $num_chamada = 1;
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script>
         $('#telefone').mask('(00) 00000-0000');
+        $('#edit_telefone').mask('(00) 00000-0000');
         document.addEventListener("DOMContentLoaded", function() {
 
             const msg = document.getElementById("msg-sucesso");

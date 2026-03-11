@@ -221,7 +221,7 @@ if (time() > $_SESSION['expire']) {
     <!-- CONTEUDO -->
 
     <div class="container mt-5">
-
+<h1 class="page-title">Bom dia, <?= $_SESSION["usuario"] ?>!</h1>
         <div class="mb-4">
 
             <h2 class="page-title">Painel do Catequista</h2>

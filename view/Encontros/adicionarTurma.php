@@ -11,21 +11,33 @@ if (!isset($_SESSION['id'])) {
     header("Location: ../index.php");
     exit;
 }
+
 $catequista_id = $_SESSION['id'];
 
 include "../../conect.php";
-include "../../controller/Encontros/getEncontros.php"
+
+/* buscar turmas do catequista */
+
+$sql = "SELECT t.id_turma, t.etapa_turma, u.nome_catequista 
+        FROM tab_turma t
+        JOIN tab_usuario u ON t.catequista_id = u.id_catequista
+        WHERE t.catequista_id = $catequista_id";
+
+$result = $conn->query($sql);
+$turmas = $result->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encontros</title>
+    <title>Novo Encontro</title>
+
     <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/fontawesome-free-7.2.0-web/css/all.css">
+
     <style>
         body {
             background: #f4f6f9;
@@ -75,8 +87,8 @@ include "../../controller/Encontros/getEncontros.php"
             color: #2c5364;
         }
 
-        .fa-calendar {
-            width: 50px;
+        .card {
+            border: none;
         }
 
         a {
@@ -92,11 +104,84 @@ include "../../controller/Encontros/getEncontros.php"
             text-decoration: none;
             color: white;
         }
+        .presenca-linha{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:12px 15px;
+    margin-bottom:8px;
+
+    background:#f8f9fa;
+    border-radius:10px;
+    border:1px solid #e5e5e5;
+}
+
+.nome{
+    font-weight:500;
+}
+
+/* esconder radio */
+
+.presenca-botoes input{
+    display:none;
+}
+
+.presenca-botoes{
+    display:flex;
+    gap:8px;
+}
+
+/* botão */
+
+.btn-presenca{
+    padding:6px 14px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    cursor:pointer;
+    font-weight:600;
+    transition:0.2s;
+}
+
+/* hover */
+
+.btn-v:hover{
+    background:#e8f7ec;
+}
+
+.btn-f:hover{
+    background:#fdeaea;
+}
+
+/* selecionado */
+
+#v_:checked + .btn-v{
+    background:#28a745;
+    color:white;
+    border-color:#28a745;
+}
+
+#f_:checked + .btn-f{
+    background:#dc3545;
+    color:white;
+    border-color:#dc3545;
+}
+
+input[type="radio"]:checked + .btn-v{
+    background:#28a745;
+    color:white;
+    border-color:#28a745;
+}
+
+input[type="radio"]:checked + .btn-f{
+    background:#dc3545;
+    color:white;
+    border-color:#dc3545;
+}
     </style>
 </head>
 
 <body>
-
     <!-- NAVBAR -->
 
     <nav class="navbar navbar-dark">
@@ -118,7 +203,6 @@ include "../../controller/Encontros/getEncontros.php"
     </nav>
 
     <!-- MENU LATERAL -->
-
     <div class="offcanvas offcanvas-start" tabindex="-1" id="menu">
 
         <div class="offcanvas-header">
@@ -189,71 +273,112 @@ include "../../controller/Encontros/getEncontros.php"
         </div>
 
     </div>
-    <!--CONTEUDO-->
     <div class="container mt-5">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Turmas da Catequese </h2>
+            <h2>Novo Encontro</h2>
 
-            <a href="./adicionarTurma.php" class="btn btn-primary" data-bs-target="#novaTurma">
-                Novo Encontro
+            <a href="./index.php" class="btn btn-outline-secondary">
+                <i class="fa-solid fa-arrow-left"></i> Voltar
             </a>
         </div>
 
-        <div class="row g-4">
-            <?php foreach ($encontros as $e): ?>
-                <div class="col-12 col-sm-6 col-md-4">
+        <div class="card shadow-sm">
 
-                    <div class="card shadow-sm h-100 turma-card">
+            <div class="card-body">
 
-                        <div class="card-body">
-                            <div class="etapa">
-                                <div class="d-flex">
-                                    <h4>
-                                        <?= date('d/m/Y', strtotime($e["data_encontro"])) ?>
-                                    </h4>
-                                    <h2 class="ms-auto">
-                                        <i class="fa-solid fa-calendar" style="color: rgb(232, 44, 44);"></i>
-                                    </h2>
-                                </div>
-                                <h3 class="card-text text-muted">
-                                    <?= $e["tema"] ?>
-                                </h3>
-                                <input type="hidden" name="" value="">
-                                <p class="blockquote-footer mt-1">
-                                    <?php
-                                    $frase = $e["frase_encontro"];
+                <form action="../../controller/Encontros/createEncontro.php" method="POST">
 
-                                    if (strlen($frase) > 45) {
-                                        echo substr($frase, 0, 45) . "...";
-                                    } else {
-                                        echo $frase;
-                                    }
-                                    ?>
-                                </p>
-                                <hr>
-                                <div class="mt-2">
-                                    <div class="d-flex justify-content-between">
 
-                                        <a href="./encontro.php?id=<?= $i["id_encontro"] ?>" class="btn btn-outline-primary w-100">
-                                            Ver Encontro
-                                        </a>
 
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="mb-3">
+                        <label class="form-label">Data do Encontro</label>
 
-                        </div>
-
+                        <input type="date"
+                            name="data_encontro"
+                            class="form-control"
+                            required>
                     </div>
 
-                </div>
-            <?php endforeach; ?>
+                    <div class="mb-3">
+                        <label class="form-label">Tema do Encontro</label>
+
+                        <input type="text"
+                            name="tema_encontro"
+                            class="form-control"
+                            placeholder="Ex: Amor ao próximo"
+                            required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Frase do Encontro</label>
+
+                        <input type="text"
+                            name="frase_encontro"
+                            class="form-control"
+                            placeholder="Ex: Algum Versiculo"
+                            required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Observações</label>
+
+                        <textarea name="observacao"
+                            class="form-control"
+                            rows="3"
+                            placeholder="Anotações do encontro"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Turma</label>
+
+                        <select name="turma_id" id="turma" class="form-select" required>
+
+                            <option value="">Selecione a turma</option>
+
+                            <?php foreach ($turmas as $t): ?>
+
+                                <option value="<?= $t["id_turma"] ?>">
+                                    <?= $t["etapa_turma"] ?>º Etapa - <?= $t["nome_catequista"] ?>
+                                </option>
+
+                            <?php endforeach; ?>
+
+                        </select>
+                    </div>
+
+                    <div id="lista-presenca" class="mt-4"></div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2">
+                        <i class="fa-solid fa-plus"></i> Criar Encontro
+                    </button>
+
+                </form>
+
+            </div>
 
         </div>
 
     </div>
+
     <script src="../../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById("turma").addEventListener("change", function() {
+
+            let turma = this.value;
+
+            if (turma === "") return;
+
+            fetch("../../controller/Encontros/getChamada.php?turma_id=" + turma)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("lista-presenca").innerHTML = data;
+                });
+
+        });
+    </script>
+
 </body>
 
 </html>

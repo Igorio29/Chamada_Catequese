@@ -156,6 +156,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
         .alert-sucesso-delete.show:hover {
             opacity: 1;
         }
+
         .alert-sucesso-update {
             position: fixed;
             top: 20px;
@@ -320,7 +321,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="../Encontros/index.php">
                         <i class="fa-solid fa-calendar"></i>
                         Encontros
                     </a>
@@ -375,7 +376,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                             <p class="card-text text-muted">
                                 Catequista: <?= htmlspecialchars($i['nome_catequista']) ?>
                             </p>
-<input type="hidden" name="" value="<?= htmlspecialchars($i['catequista_id']) ?>">
+                            <input type="hidden" name="" value="<?= htmlspecialchars($i['catequista_id']) ?>">
                             <hr>
 
                             <div class="d-flex justify-content-between">
@@ -419,7 +420,6 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
     </div>
 
 
-
     <!-- MODAL NOVA TURMA -->
 
     <div class="modal fade" id="novaTurma">
@@ -447,7 +447,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
 
                             <select name="etapa_id" class="form-select" required>
 
-                                <option value="" disabled selected >Selecione</option>
+                                <option value="" disabled selected>Selecione</option>
                                 <option value="1">1ª Etapa</option>
                                 <option value="2">2ª Etapa</option>
                                 <option value="3">3ª Etapa</option>
@@ -490,6 +490,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
 
     </div>
 
+    <!--MODAL EDITAR TURMA -->
     <div class="modal fade" id="editarTurmaModal">
 
         <div class="modal-dialog">
@@ -592,7 +593,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
         if (window.location.search.includes("success=false")) {
             window.history.replaceState({}, document.title, window.location.pathname);
         }
-        
+
         if (window.location.search.includes("delete=true")) {
             window.history.replaceState({}, document.title, window.location.pathname);
         }
@@ -601,7 +602,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
             window.history.replaceState({}, document.title, window.location.pathname);
         }
 
-        
+
         document.addEventListener("DOMContentLoaded", function() {
 
             const editarModal = document.getElementById('editarTurmaModal');

@@ -309,7 +309,7 @@ $num_chamada = 1;
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="../Encontros/index.php">
                         <i class="fa-solid fa-calendar"></i>
                         Encontros
                     </a>

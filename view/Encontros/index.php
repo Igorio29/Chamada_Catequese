@@ -1,30 +1,17 @@
-<?php
-session_start();
-if (time() > $_SESSION['expire']) {
-    session_destroy();
-    header("Location: index.php");
-    exit;
-}
-?>
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Catequese Campina</title>
-
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/fontawesome-free-7.2.0-web/css/all.css">
-
+    <title>Encontros</title>
+    <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/fontawesome-free-7.2.0-web/css/all.css">
     <style>
         body {
-            background: #f2f4f6;
-            min-height: 100vh;
-            font-family: "Segoe UI", sans-serif;
+            background: #f4f6f9;
         }
+
 
         /* NAVBAR */
 
@@ -69,42 +56,8 @@ if (time() > $_SESSION['expire']) {
             color: #2c5364;
         }
 
-        /* CONTEUDO */
-
-        .page-title {
-            font-weight: 700;
-            color: #1b2b34;
-        }
-
-        .subtitle {
-            color: #6c757d;
-        }
-
-        /* CARDS */
-
-        .card-menu {
-            border: none;
-            border-radius: 16px;
-            background: white;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            transition: 0.2s;
-            cursor: pointer;
-        }
-
-        .card-menu:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .card-menu i {
-            font-size: 28px;
-            margin-bottom: 10px;
-            color: #2c5364;
-        }
-
-        .card-menu h5 {
-            font-weight: 600;
-            color: #1b2b34;
+        .fa-calendar {
+            width: 50px;
         }
 
         a {
@@ -121,7 +74,6 @@ if (time() > $_SESSION['expire']) {
             color: white;
         }
     </style>
-
 </head>
 
 <body>
@@ -129,26 +81,35 @@ if (time() > $_SESSION['expire']) {
     <!-- NAVBAR -->
 
     <nav class="navbar navbar-dark">
+
         <div class="container-fluid">
+
             <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#menu">
                 <i class="fa-solid fa-bars"></i>
             </button>
 
             <span class="navbar-brand mb-0 h1">
-                <a href="#" class="botao-inicio">
+                <a href="../MenuInicial.php" class="botao-inicio">
                     <i class="fa-solid fa-church"></i> Catequese Campina
                 </a>
             </span>
+
         </div>
+
     </nav>
 
     <!-- MENU LATERAL -->
+
     <div class="offcanvas offcanvas-start" tabindex="-1" id="menu">
+
         <div class="offcanvas-header">
+
             <h5 class="offcanvas-title fw-bold">
                 <i class="fa-solid fa-church"></i> Menu
             </h5>
+
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+
         </div>
 
         <div class="offcanvas-body">
@@ -156,11 +117,12 @@ if (time() > $_SESSION['expire']) {
             <ul class="nav flex-column">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="../menuInicial.php">
                         <i class="fa-solid fa-house"></i>
                         Menu Inicial
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="fa-solid fa-clipboard-check"></i>
@@ -169,21 +131,21 @@ if (time() > $_SESSION['expire']) {
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="./Catequizandos/index.php">
+                    <a class="nav-link" href="../Catequizandos/index.php">
                         <i class="fa-solid fa-user"></i>
                         Catequizandos
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="./Turmas/">
+                    <a class="nav-link" href="#">
                         <i class="fa-solid fa-users"></i>
                         Turmas
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="./Encontros/index.php">
+                    <a class="nav-link" href="../Encontros/index.php">
                         <i class="fa-solid fa-calendar"></i>
                         Encontros
                     </a>
@@ -208,76 +170,71 @@ if (time() > $_SESSION['expire']) {
         </div>
 
     </div>
-
-    <!-- CONTEUDO -->
-
+    <!--CONTEUDO-->
     <div class="container mt-5">
-        <h1 class="page-title">Bom dia, <?= $_SESSION["usuario"] ?>!</h1>
-        <div class="mb-4">
 
-            <h2 class="page-title">Painel do Catequista</h2>
-            <p class="subtitle">Gerencie presença, turmas e catequizandos.</p>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Turmas da Catequese </h2>
 
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novaTurma">
+                Nova Turma
+            </button>
         </div>
 
         <div class="row g-4">
 
-            <div class="col-md-6">
+            <div class="col-12 col-sm-6 col-md-4">
 
-                <div class="card card-menu p-4 text-center">
+                <div class="card shadow-sm h-100 turma-card">
 
-                    <i class="fa-solid fa-clipboard-check"></i>
+                    <div class="card-body">
+                        <div class="etapa">
+                            <div class="d-flex">
+                                <h4>
+                                    07/03/2026
+                                </h4>
+                                <h2 class="ms-auto">
+                                    <i class="fa-solid fa-calendar" style="color: rgb(232, 44, 44);"></i>
+                                </h2>
+                            </div>
+                            <h3 class="card-text text-muted">
+                                Tema Encontro
+                            </h3>
+                            <input type="hidden" name="" value="">
+                            <hr>
+                            <div class="mt-2">
+                                <div class="d-flex justify-content-between">
 
-                    <h5>Fazer Chamada</h5>
+                                    <a href="" class="btn btn-outline-primary w-100">
+                                        Ver Encontro
+                                    </a>
+
+                                </div>
+                            </div>
+                            <!--
+                                <div>
+                                        <a>
+                                            <i class="fa-solid fa-pen-to-square" style="color: rgb(116,192,252);"></i>
+                                        </a>
+
+                                        <a href="../../controller/TurmasController/deletarTurma.php?id=<?= $i['id_turma'] ?>">
+                                            <i class="fa-solid fa-trash" style="color: rgb(232,75,75);"></i>
+                                        </a>
+                                </div>
+                            -->
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
-            <div class="col-md-6">
-                <a href="./Catequizandos/index.php">
-                    <div class="card card-menu p-4 text-center">
-
-                        <i class="fa-solid fa-user"></i>
-
-                        <h5>Catequizandos</h5>
-
-                    </div>
-
-                </a>
-
-            </div>
-
-            <div class="col-md-6">
-                <a href="./Turmas/index.php">
-                    <div class="card card-menu p-4 text-center">
-
-                        <i class="fa-solid fa-users"></i>
-
-                        <h5>Turmas</h5>
-
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-md-6">
-                <a href="./Encontros/index.php">
-                    <div class="card card-menu p-4 text-center">
-
-                        <i class="fa-solid fa-calendar"></i>
-
-                        <h5>Encontros</h5>
-
-                    </div>
-                </a>
-            </div>
 
         </div>
 
     </div>
-
-    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+    <script src="../../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

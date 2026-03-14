@@ -211,6 +211,10 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
         a {
             text-decoration: none;
         }
+
+        .a-fazer {
+            background-color: red;
+        }
     </style>
 
 </head>
@@ -331,7 +335,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item a-fazer">
                     <a class="nav-link" href="#">
                         <i class="fa-solid fa-chart-column"></i>
                         Relatórios

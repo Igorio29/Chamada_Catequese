@@ -137,9 +137,7 @@ $hora = date("H");
     <!-- NAVBAR -->
 
     <nav class="navbar navbar-dark">
-
         <div class="container-fluid">
-
             <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#menu">
                 <i class="fa-solid fa-bars"></i>
             </button>
@@ -149,23 +147,16 @@ $hora = date("H");
                     <i class="fa-solid fa-church"></i> Catequese Campina
                 </a>
             </span>
-
         </div>
-
     </nav>
 
     <!-- MENU LATERAL -->
-
     <div class="offcanvas offcanvas-start" tabindex="-1" id="menu">
-
         <div class="offcanvas-header">
-
             <h5 class="offcanvas-title fw-bold">
                 <i class="fa-solid fa-church"></i> Menu
             </h5>
-
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-
         </div>
 
         <div class="offcanvas-body">
@@ -178,8 +169,8 @@ $hora = date("H");
                         Menu Inicial
                     </a>
                 </li>
-                <li class="nav-item a-fazer">
-                    <a class="nav-link" href="#">
+                <li class="nav-item">
+                    <a class="nav-link" href="./Encontros/adicionarEncontro.php?tela=1">
                         <i class="fa-solid fa-clipboard-check"></i>
                         Fazer Chamada
                     </a>
@@ -199,8 +190,8 @@ $hora = date("H");
                     </a>
                 </li>
 
-                <li class="nav-item a-fazer">
-                    <a class="nav-link" href="#">
+                <li class="nav-item">
+                    <a class="nav-link" href="./Encontros/index.php">
                         <i class="fa-solid fa-calendar"></i>
                         Encontros
                     </a>
@@ -248,15 +239,15 @@ $hora = date("H");
         <div class="row g-4">
 
             <div class="col-md-6">
+                <a href="./Encontros/adicionarEncontro.php?tela=1">
+                    <div class="card card-menu p-4 text-center">
 
-                <div class="card card-menu p-4 text-center">
+                        <i class="fa-solid fa-clipboard-check"></i>
 
-                    <i class="fa-solid fa-clipboard-check"></i>
+                        <h5>Fazer Chamada</h5>
 
-                    <h5>Fazer Chamada</h5>
-
-                </div>
-
+                    </div>
+                </a>
             </div>
 
             <div class="col-md-6">
@@ -286,15 +277,15 @@ $hora = date("H");
             </div>
 
             <div class="col-md-6">
+                <a href="./Encontros/index.php">
+                    <div class="card card-menu p-4 text-center">
 
-                <div class="card card-menu p-4 text-center">
+                        <i class="fa-solid fa-calendar"></i>
 
-                    <i class="fa-solid fa-calendar"></i>
+                        <h5>Encontros</h5>
 
-                    <h5>Encontros</h5>
-
-                </div>
-
+                    </div>
+                </a>
             </div>
 
         </div>

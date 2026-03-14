@@ -156,6 +156,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
         .alert-sucesso-delete.show:hover {
             opacity: 1;
         }
+
         .alert-sucesso-update {
             position: fixed;
             top: 20px;
@@ -219,43 +220,47 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
 </head>
 
 <body>
+    <!--Popups-->
+    <div>
 
-    <?php
-    if (isset($_GET['sucesso']) && $_GET['sucesso'] == "true") {
-    ?>
-        <div id="msg-sucesso" class="alert-sucesso">
-            Turma criada com sucesso!
-        </div>
-    <?php
-    }
-    ?>
-    <?php
-    if (isset($_GET['delete']) && $_GET['delete'] == "true") {
-    ?>
-        <div id="msg-sucesso" class="alert-sucesso-delete">
-            Turma Deletada com sucesso!
-        </div>
-    <?php
-    }
-    ?>
-    <?php
-    if (isset($_GET['edit']) && $_GET['edit'] == "true") {
-    ?>
-        <div id="msg-sucesso" class="alert-sucesso-update">
-            Turma Editada com sucesso!
-        </div>
-    <?php
-    }
-    ?>
-    <?php
-    if (isset($_GET['success']) && $_GET['success'] == "false") {
-    ?>
-        <div id="msg-sucesso" class="alert-sucesso-delete">
-            Erro ao concluir ação!
-        </div>
-    <?php
-    }
-    ?>
+
+        <?php
+        if (isset($_GET['sucesso']) && $_GET['sucesso'] == "true") {
+        ?>
+            <div id="msg-sucesso" class="alert-sucesso">
+                Turma criada com sucesso!
+            </div>
+        <?php
+        }
+        ?>
+        <?php
+        if (isset($_GET['delete']) && $_GET['delete'] == "true") {
+        ?>
+            <div id="msg-sucesso" class="alert-sucesso-delete">
+                Turma Deletada com sucesso!
+            </div>
+        <?php
+        }
+        ?>
+        <?php
+        if (isset($_GET['edit']) && $_GET['edit'] == "true") {
+        ?>
+            <div id="msg-sucesso" class="alert-sucesso-update">
+                Turma Editada com sucesso!
+            </div>
+        <?php
+        }
+        ?>
+        <?php
+        if (isset($_GET['success']) && $_GET['success'] == "false") {
+        ?>
+            <div id="msg-sucesso" class="alert-sucesso-delete">
+                Erro ao concluir ação!
+            </div>
+        <?php
+        }
+        ?>
+    </div>
 
     <!-- NAVBAR -->
 
@@ -302,8 +307,8 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                     </a>
                 </li>
 
-                <li class="nav-item a-fazer">
-                    <a class="nav-link" href="#">
+                <li class="nav-item">
+                    <a class="nav-link" href="../Encontros/adicionarEncontro.php?tela=1">
                         <i class="fa-solid fa-clipboard-check"></i>
                         Fazer Chamada
                     </a>
@@ -317,14 +322,14 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="index.php">
                         <i class="fa-solid fa-users"></i>
                         Turmas
                     </a>
                 </li>
 
-                <li class="nav-item a-fazer">
-                    <a class="nav-link" href="#">
+                <li class="nav-item">
+                    <a class="nav-link" href="../Encontros/index.php">
                         <i class="fa-solid fa-calendar"></i>
                         Encontros
                     </a>
@@ -379,7 +384,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                             <p class="card-text text-muted">
                                 Catequista: <?= htmlspecialchars($i['nome_catequista']) ?>
                             </p>
-<input type="hidden" name="" value="<?= htmlspecialchars($i['catequista_id']) ?>">
+                            <input type="hidden" name="" value="<?= htmlspecialchars($i['catequista_id']) ?>">
                             <hr>
 
                             <div class="d-flex justify-content-between">
@@ -423,7 +428,6 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
     </div>
 
 
-
     <!-- MODAL NOVA TURMA -->
 
     <div class="modal fade" id="novaTurma">
@@ -451,7 +455,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
 
                             <select name="etapa_id" class="form-select" required>
 
-                                <option value="" disabled selected >Selecione</option>
+                                <option value="" disabled selected>Selecione</option>
                                 <option value="1">1ª Etapa</option>
                                 <option value="2">2ª Etapa</option>
                                 <option value="3">3ª Etapa</option>
@@ -494,6 +498,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
 
     </div>
 
+    <!--MODAL EDITAR TURMA -->
     <div class="modal fade" id="editarTurmaModal">
 
         <div class="modal-dialog">
@@ -596,7 +601,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
         if (window.location.search.includes("success=false")) {
             window.history.replaceState({}, document.title, window.location.pathname);
         }
-        
+
         if (window.location.search.includes("delete=true")) {
             window.history.replaceState({}, document.title, window.location.pathname);
         }
@@ -605,7 +610,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
             window.history.replaceState({}, document.title, window.location.pathname);
         }
 
-        
+
         document.addEventListener("DOMContentLoaded", function() {
 
             const editarModal = document.getElementById('editarTurmaModal');

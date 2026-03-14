@@ -1,0 +1,61 @@
+body {
+    background: #f4f6f9;
+}
+
+
+/* NAVBAR */
+
+.navbar {
+    background: #1b2b34;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-brand {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* SIDEBAR */
+
+.offcanvas {
+    background: #ffffff;
+    width: 260px;
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.nav-item {
+    border-radius: 8px;
+    transition: 0.15s;
+}
+
+.nav-item:hover {
+    background: #f1f1f1;
+    transform: translateX(4px);
+}
+
+.nav-link {
+    color: #333 !important;
+    font-weight: 500;
+}
+
+.nav-link i {
+    width: 25px;
+    color: #2c5364;
+}
+
+a {
+    text-decoration: none;
+}
+
+.botao-inicio {
+    text-decoration: none;
+    color: white;
+}
+
+.botao-inicio:hover {
+    text-decoration: none;
+    color: white;
+}

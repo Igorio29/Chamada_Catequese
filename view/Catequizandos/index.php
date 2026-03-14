@@ -279,15 +279,15 @@ $num_chamada = 1;
                     </a>
                 </li>
 
-                <li class="nav-item a-fazer">
-                    <a class="nav-link" href="#">
+                <li class="nav-item">
+                    <a class="nav-link" href="../Encontros/adicionarEncontro.php?tela=1">
                         <i class="fa-solid fa-clipboard-check"></i>
                         Fazer Chamada
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="index.php">
                         <i class="fa-solid fa-user"></i>
                         Catequizandos
                     </a>
@@ -300,8 +300,8 @@ $num_chamada = 1;
                     </a>
                 </li>
 
-                <li class="nav-item a-fazer">
-                    <a class="nav-link" href="#">
+                <li class="nav-item">
+                    <a class="nav-link" href="../Encontros/index.php">
                         <i class="fa-solid fa-calendar"></i>
                         Encontros
                     </a>

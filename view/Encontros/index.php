@@ -235,7 +235,7 @@ include "../../controller/Encontros/getEncontros.php"
                                 <div class="mt-2">
                                     <div class="d-flex justify-content-between">
 
-                                        <a href="./encontro.php?id=<?= $i["id_encontro"] ?>" class="btn btn-outline-primary w-100">
+                                        <a href="./encontro.php?id=<?= $e["id_encontro"] ?>" class="btn btn-outline-primary w-100">
                                             Ver Encontro
                                         </a>
 

@@ -25,7 +25,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/fontawesome-free-7.2.0-web/css/all.css">
-
+    <link rel="icon" href="../../img/logo.png">
     <style>
         body {
             background: #f4f6f9;

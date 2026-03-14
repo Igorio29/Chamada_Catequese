@@ -22,6 +22,7 @@ $hora = date("H");
 
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/fontawesome-free-7.2.0-web/css/all.css">
+    <link rel="icon" href="../img/logo.png">
 
     <style>
         body {
@@ -197,7 +198,7 @@ $hora = date("H");
                     </a>
                 </li>
 
-                <li class="nav-item a-fazer">
+                <li class="nav-item">
                     <a class="nav-link" href="../Relatorios/index.php">
                         <i class="fa-solid fa-chart-column"></i>
                         Relatórios

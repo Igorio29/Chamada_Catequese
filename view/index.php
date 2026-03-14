@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Catequese Campina</title>
     <link rel="stylesheet" href="./style.css/login.css">
+    <link rel="icon" href="../img/logo.png">
+
 </head>
 
 <body>

@@ -40,6 +40,8 @@ $num_chamada = 1;
     <title><?= htmlspecialchars($i['etapa_turma']) ?>ª Etapa - <?= htmlspecialchars($i['ano_turma']) ?></title>
     <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/fontawesome-free-7.2.0-web/css/all.css">
+    <link rel="icon" href="../../img/logo.png">
+
     <style>
         /* NAVBAR */
 

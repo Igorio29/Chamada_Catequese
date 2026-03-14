@@ -162,7 +162,7 @@ if (time() > $_SESSION['expire']) {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="./Encontros/adicionarEncontro.php?tela=1">
                         <i class="fa-solid fa-clipboard-check"></i>
                         Fazer Chamada
                     </a>
@@ -223,15 +223,15 @@ if (time() > $_SESSION['expire']) {
         <div class="row g-4">
 
             <div class="col-md-6">
+                <a href="./Encontros/adicionarEncontro.php?tela=1">
+                    <div class="card card-menu p-4 text-center">
 
-                <div class="card card-menu p-4 text-center">
+                        <i class="fa-solid fa-clipboard-check"></i>
 
-                    <i class="fa-solid fa-clipboard-check"></i>
+                        <h5>Fazer Chamada</h5>
 
-                    <h5>Fazer Chamada</h5>
-
-                </div>
-
+                    </div>
+                </a>
             </div>
 
             <div class="col-md-6">

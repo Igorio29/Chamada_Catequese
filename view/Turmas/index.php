@@ -216,43 +216,47 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
 </head>
 
 <body>
+    <!--Popups-->
+    <div>
 
-    <?php
-    if (isset($_GET['sucesso']) && $_GET['sucesso'] == "true") {
-    ?>
-        <div id="msg-sucesso" class="alert-sucesso">
-            Turma criada com sucesso!
-        </div>
-    <?php
-    }
-    ?>
-    <?php
-    if (isset($_GET['delete']) && $_GET['delete'] == "true") {
-    ?>
-        <div id="msg-sucesso" class="alert-sucesso-delete">
-            Turma Deletada com sucesso!
-        </div>
-    <?php
-    }
-    ?>
-    <?php
-    if (isset($_GET['edit']) && $_GET['edit'] == "true") {
-    ?>
-        <div id="msg-sucesso" class="alert-sucesso-update">
-            Turma Editada com sucesso!
-        </div>
-    <?php
-    }
-    ?>
-    <?php
-    if (isset($_GET['success']) && $_GET['success'] == "false") {
-    ?>
-        <div id="msg-sucesso" class="alert-sucesso-delete">
-            Erro ao concluir ação!
-        </div>
-    <?php
-    }
-    ?>
+
+        <?php
+        if (isset($_GET['sucesso']) && $_GET['sucesso'] == "true") {
+        ?>
+            <div id="msg-sucesso" class="alert-sucesso">
+                Turma criada com sucesso!
+            </div>
+        <?php
+        }
+        ?>
+        <?php
+        if (isset($_GET['delete']) && $_GET['delete'] == "true") {
+        ?>
+            <div id="msg-sucesso" class="alert-sucesso-delete">
+                Turma Deletada com sucesso!
+            </div>
+        <?php
+        }
+        ?>
+        <?php
+        if (isset($_GET['edit']) && $_GET['edit'] == "true") {
+        ?>
+            <div id="msg-sucesso" class="alert-sucesso-update">
+                Turma Editada com sucesso!
+            </div>
+        <?php
+        }
+        ?>
+        <?php
+        if (isset($_GET['success']) && $_GET['success'] == "false") {
+        ?>
+            <div id="msg-sucesso" class="alert-sucesso-delete">
+                Erro ao concluir ação!
+            </div>
+        <?php
+        }
+        ?>
+    </div>
 
     <!-- NAVBAR -->
 
@@ -300,7 +304,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="../Encontros/adicionarEncontro.php?tela=1">
                         <i class="fa-solid fa-clipboard-check"></i>
                         Fazer Chamada
                     </a>
@@ -314,7 +318,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="index.php">
                         <i class="fa-solid fa-users"></i>
                         Turmas
                     </a>

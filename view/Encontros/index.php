@@ -24,79 +24,147 @@ include "../../controller/Encontros/getEncontros.php"
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encontros</title>
+    <link rel="stylesheet" href="../style.css/layout.css">
     <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/fontawesome-free-7.2.0-web/css/all.css">
     <style>
-        body {
-            background: #f4f6f9;
-        }
-
-
-        /* NAVBAR */
-
-        .navbar {
-            background: #1b2b34;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .navbar-brand {
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        /* SIDEBAR */
-
-        .offcanvas {
-            background: #ffffff;
-            width: 260px;
-        }
-
-        .offcanvas-header {
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        .nav-item {
-            border-radius: 8px;
-            transition: 0.15s;
-        }
-
-        .nav-item:hover {
-            background: #f1f1f1;
-            transform: translateX(4px);
-        }
-
-        .nav-link {
-            color: #333 !important;
-            font-weight: 500;
-        }
-
-        .nav-link i {
-            width: 25px;
-            color: #2c5364;
-        }
-
         .fa-calendar {
             width: 50px;
         }
+        .alert-sucesso {
+            position: fixed;
+            top: 20px;
+            right: 20px;
 
-        a {
-            text-decoration: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.5s, transform 0.5s;
+
+            z-index: 9999;
+
         }
 
-        .botao-inicio {
-            text-decoration: none;
-            color: white;
+        .alert-sucesso.show {
+            opacity: 0.8;
+            transform: translateY(0);
+            cursor: pointer;
         }
 
-        .botao-inicio:hover {
-            text-decoration: none;
+        .alert-sucesso.show:hover {
+            opacity: 1;
+        }
+
+        .alert-sucesso-delete {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+
+            background-color: rgb(247, 65, 65);
             color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.5s, transform 0.5s;
+
+            z-index: 9999;
+
+        }
+
+        .alert-sucesso-delete.show {
+            opacity: 0.8;
+            transform: translateY(0);
+            cursor: pointer;
+        }
+
+        .alert-sucesso-delete.show:hover {
+            opacity: 1;
+        }
+
+        .alert-sucesso-update {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+
+            background-color: rgb(3, 134, 241);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.5s, transform 0.5s;
+
+            z-index: 9999;
+
+        }
+
+        .alert-sucesso-update.show {
+            opacity: 0.8;
+            transform: translateY(0);
+            cursor: pointer;
+        }
+
+        .alert-sucesso-update.show:hover {
+            opacity: 1;
         }
     </style>
 </head>
 
 <body>
-
+    <div>
+        <?php
+        if (isset($_GET['sucesso']) && $_GET['sucesso'] === "true") {
+        ?>
+            <div id="msg-sucesso" class="alert-sucesso">
+                Encontro criado com sucesso!
+            </div>
+        <?php
+        }
+        ?>
+        <?php
+        if (isset($_GET['delete']) && $_GET['delete'] == "true") {
+        ?>
+            <div id="msg-sucesso" class="alert-sucesso-delete">
+                Encontro Deletado com sucesso!
+            </div>
+        <?php
+        }
+        ?>
+        <?php
+        if (isset($_GET['edit']) && $_GET['edit'] == "true") {
+        ?>
+            <div id="msg-sucesso" class="alert-sucesso-update">
+                Encontro Editado com sucesso!
+            </div>
+        <?php
+        }
+        ?>
+        <?php
+        if (isset($_GET['success']) && $_GET['success'] == "false") {
+        ?>
+            <div id="msg-sucesso" class="alert-sucesso-delete">
+                Erro ao concluir ação!
+            </div>
+        <?php
+        }
+        ?>
+    </div>
     <!-- NAVBAR -->
 
     <nav class="navbar navbar-dark">
@@ -143,7 +211,7 @@ include "../../controller/Encontros/getEncontros.php"
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="../Encontros/adicionarEncontro.php?tela=1">
                         <i class="fa-solid fa-clipboard-check"></i>
                         Fazer Chamada
                     </a>
@@ -195,7 +263,7 @@ include "../../controller/Encontros/getEncontros.php"
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Turmas da Catequese </h2>
 
-            <a href="./adicionarTurma.php" class="btn btn-primary" data-bs-target="#novaTurma">
+            <a href="./adicionarEncontro.php" class="btn btn-primary" data-bs-target="#novaTurma">
                 Novo Encontro
             </a>
         </div>
@@ -254,6 +322,65 @@ include "../../controller/Encontros/getEncontros.php"
 
     </div>
     <script src="../../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const msg = document.getElementById("msg-sucesso");
+
+            if (msg) {
+
+                setTimeout(() => {
+                    msg.classList.add("show");
+                }, 100);
+
+                setTimeout(() => {
+                    msg.classList.remove("show");
+                }, 5000);
+
+                // desaparecer ao clicar
+                msg.addEventListener("click", function() {
+                    msg.classList.remove("show");
+                });
+
+            }
+
+            const editarModal = document.getElementById('editarCatequizandomodal');
+
+            editarModal.addEventListener('show.bs.modal', function(event) {
+
+                const button = event.relatedTarget;
+
+                const id = button.getAttribute('data-id');
+                console.log(id);
+                const nome = button.getAttribute('data-nome');
+                console.log(nome);
+                const nascimento = button.getAttribute('data-nascimento');
+                const telefone = button.getAttribute('data-telefone');
+                const turma = button.getAttribute('data-turma');
+
+                document.getElementById('edit_id').value = id;
+                document.getElementById('edit_nome').value = nome;
+                document.getElementById('edit_nascimento').value = nascimento;
+                document.getElementById('edit_telefone').value = telefone;
+                document.getElementById('edit_turma').value = turma;
+                document.getElementById('edit_turma_atual').value = turma;
+
+            });
+
+        });
+
+
+        //REMOVE A MENSAGEM DO URL
+
+        const url = new URL(window.location);
+
+        url.searchParams.delete("sucesso");
+        url.searchParams.delete("success");
+        url.searchParams.delete("delete");
+        url.searchParams.delete("edit");
+
+        window.history.replaceState({}, document.title, url);
+    </script>
 </body>
 
 </html>

@@ -288,7 +288,7 @@ $num_chamada = 1;
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="../Encontros/adicionarEncontro.php?tela=1">
                         <i class="fa-solid fa-clipboard-check"></i>
                         Fazer Chamada
                     </a>

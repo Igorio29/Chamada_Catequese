@@ -12,6 +12,11 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
+if (isset($_GET['tela'])){
+    date_default_timezone_set("America/Sao_Paulo");
+    $data = date("Y-m-d");
+}
+
 $catequista_id = $_SESSION['id'];
 
 include "../../conect.php";
@@ -35,153 +40,95 @@ $turmas = $result->fetch_all(MYSQLI_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Novo Encontro</title>
 
+    <link rel="stylesheet" href="../style.css/layout.css">
     <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/fontawesome-free-7.2.0-web/css/all.css">
 
     <style>
-        body {
-            background: #f4f6f9;
-        }
-
-
-        /* NAVBAR */
-
-        .navbar {
-            background: #1b2b34;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .navbar-brand {
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        /* SIDEBAR */
-
-        .offcanvas {
-            background: #ffffff;
-            width: 260px;
-        }
-
-        .offcanvas-header {
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        .nav-item {
-            border-radius: 8px;
-            transition: 0.15s;
-        }
-
-        .nav-item:hover {
-            background: #f1f1f1;
-            transform: translateX(4px);
-        }
-
-        .nav-link {
-            color: #333 !important;
-            font-weight: 500;
-        }
-
-        .nav-link i {
-            width: 25px;
-            color: #2c5364;
-        }
-
+        
         .card {
             border: none;
         }
 
-        a {
-            text-decoration: none;
+        .presenca-linha {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 12px 15px;
+            margin-bottom: 8px;
+
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e5e5e5;
         }
 
-        .botao-inicio {
-            text-decoration: none;
+        .nome {
+            font-weight: 500;
+        }
+
+        /* esconder radio */
+
+        .presenca-botoes input {
+            display: none;
+        }
+
+        .presenca-botoes {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* botão */
+
+        .btn-presenca {
+            padding: 6px 14px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        /* hover */
+
+        .btn-v:hover {
+            background: #e8f7ec;
+        }
+
+        .btn-f:hover {
+            background: #fdeaea;
+        }
+
+        /* selecionado */
+
+        #v_:checked+.btn-v {
+            background: #28a745;
             color: white;
+            border-color: #28a745;
         }
 
-        .botao-inicio:hover {
-            text-decoration: none;
+        #f_:checked+.btn-f {
+            background: #dc3545;
             color: white;
+            border-color: #dc3545;
         }
-        .presenca-linha{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
 
-    padding:12px 15px;
-    margin-bottom:8px;
+        input[type="radio"]:checked+.btn-v {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
 
-    background:#f8f9fa;
-    border-radius:10px;
-    border:1px solid #e5e5e5;
-}
-
-.nome{
-    font-weight:500;
-}
-
-/* esconder radio */
-
-.presenca-botoes input{
-    display:none;
-}
-
-.presenca-botoes{
-    display:flex;
-    gap:8px;
-}
-
-/* botão */
-
-.btn-presenca{
-    padding:6px 14px;
-    border-radius:6px;
-    border:1px solid #ccc;
-    cursor:pointer;
-    font-weight:600;
-    transition:0.2s;
-}
-
-/* hover */
-
-.btn-v:hover{
-    background:#e8f7ec;
-}
-
-.btn-f:hover{
-    background:#fdeaea;
-}
-
-/* selecionado */
-
-#v_:checked + .btn-v{
-    background:#28a745;
-    color:white;
-    border-color:#28a745;
-}
-
-#f_:checked + .btn-f{
-    background:#dc3545;
-    color:white;
-    border-color:#dc3545;
-}
-
-input[type="radio"]:checked + .btn-v{
-    background:#28a745;
-    color:white;
-    border-color:#28a745;
-}
-
-input[type="radio"]:checked + .btn-f{
-    background:#dc3545;
-    color:white;
-    border-color:#dc3545;
-}
+        input[type="radio"]:checked+.btn-f {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
     </style>
 </head>
 
 <body>
+    
     <!-- NAVBAR -->
 
     <nav class="navbar navbar-dark">
@@ -227,7 +174,7 @@ input[type="radio"]:checked + .btn-f{
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="adicionarEncontro.php?tela=1">
                         <i class="fa-solid fa-clipboard-check"></i>
                         Fazer Chamada
                     </a>
@@ -297,6 +244,7 @@ input[type="radio"]:checked + .btn-f{
                         <input type="date"
                             name="data_encontro"
                             class="form-control"
+                            value="<?= $data ?>"
                             required>
                     </div>
 

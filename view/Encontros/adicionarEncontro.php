@@ -12,7 +12,7 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
-if (isset($_GET['tela'])){
+if (isset($_GET['tela'])) {
     date_default_timezone_set("America/Sao_Paulo");
     $data = date("Y-m-d");
 }
@@ -45,7 +45,6 @@ $turmas = $result->fetch_all(MYSQLI_ASSOC);
     <link rel="stylesheet" href="../../assets/fontawesome-free-7.2.0-web/css/all.css">
 
     <style>
-        
         .card {
             border: none;
         }
@@ -128,7 +127,7 @@ $turmas = $result->fetch_all(MYSQLI_ASSOC);
 </head>
 
 <body>
-    
+
     <!-- NAVBAR -->
 
     <nav class="navbar navbar-dark">
@@ -202,7 +201,7 @@ $turmas = $result->fetch_all(MYSQLI_ASSOC);
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="../Relatorios/index.php">
                         <i class="fa-solid fa-chart-column"></i>
                         Relatórios
                     </a>

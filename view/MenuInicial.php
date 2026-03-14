@@ -198,7 +198,7 @@ $hora = date("H");
                 </li>
 
                 <li class="nav-item a-fazer">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="../Relatorios/index.php">
                         <i class="fa-solid fa-chart-column"></i>
                         Relatórios
                     </a>
@@ -220,15 +220,15 @@ $hora = date("H");
     <!-- CONTEUDO -->
 
     <div class="container mt-5">
-<h1 class="page-title"><?php
-        if ($hora < 12) {
-            echo "Bom dia, " . $_SESSION['usuario'] . "!";
-        } else if ($hora < 19) {
-            echo "Boa tarde, " . $_SESSION['usuario'] . "!";
-        } else {
-            echo "Boa noite, " . $_SESSION['usuario'] . "!";
-        }
-        ?></h1>
+        <h1 class="page-title"><?php
+                                if ($hora < 12) {
+                                    echo "Bom dia, " . $_SESSION['usuario'] . "!";
+                                } else if ($hora < 19) {
+                                    echo "Boa tarde, " . $_SESSION['usuario'] . "!";
+                                } else {
+                                    echo "Boa noite, " . $_SESSION['usuario'] . "!";
+                                }
+                                ?></h1>
         <div class="mb-4">
 
             <h2 class="page-title">Painel do Catequista</h2>

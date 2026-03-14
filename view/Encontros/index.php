@@ -239,8 +239,8 @@ include "../../controller/Encontros/getEncontros.php"
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fa-solid fa-chart-column"></i>
+                <a class="nav-link" href="../Relatorios/index.php">
+                <i class="fa-solid fa-chart-column"></i>
                         Relatórios
                     </a>
                 </li>

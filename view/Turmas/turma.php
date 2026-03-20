@@ -18,9 +18,10 @@ $sql =  "SELECT * FROM tab_turma t
 $resultTurma = $conn->query($sql);
 $i = $resultTurma->fetch_assoc();
 
-include "../../controller/catequizando/catequizandoForTurma.php";
-$resultCat = $conn->query($sqlCat);
-$catequizando = $resultCat->fetch_all(MYSQLI_ASSOC);
+require_once "../../conect.php";
+require_once "../../repositories/CatequizandoRepository.php";
+$repo = new CatequizandoRepository ($conn);
+$catequizando = $repo->ListarForTurma($turma_id);
 
 $sqlTurmaAll =  "SELECT t.etapa_turma, u.nome_catequista, t.id_turma FROM tab_turma t
         JOIN tab_usuario u ON u.id_catequista = t.catequista_id
@@ -366,7 +367,7 @@ $num_chamada = 1;
                     </div>
 
 
-                    <form action="../../controller/catequizando/createCatequizando.php" method="POST">
+                    <form action="../../Controller/CatequizandoController/CreateCatequizando.php" method="POST">
 
                         <div class="modal-body">
 
@@ -418,6 +419,9 @@ $num_chamada = 1;
             </div>
 
         </div>
+
+<!--CRIAÇÃO DO MODAL DA TURMA-->
+
         <div class="modal fade" id="editarCatequizandomodal">
 
             <div class="modal-dialog">
@@ -433,7 +437,7 @@ $num_chamada = 1;
                     </div>
 
 
-                    <form action="../../controller/catequizando/updateCatequizando.php" method="POST">
+                    <form action="../../Controller/CatequizandoController/UpdateCatequizando.php" method="POST">
 
                         <div class="modal-body">
 
@@ -521,25 +525,25 @@ $num_chamada = 1;
                 <?php foreach ($catequizando as $b) { ?>
                     <tr>
                         <th scope="row"><?php echo $num_chamada++; ?></th>
-                        <td><?= $b['nome_catequizando'] ?></td>
-                        <td><?= date('d/m/Y', strtotime($b['data_nascimento'])) ?></td>
-                        <td><?= $b['telefone_responsavel'] ?></td>
+                        <td><?= $b->getNomeCatequizando() ?></td>
+                        <td><?= date('d/m/Y', strtotime($b->getDataNascimento())) ?></td>
+                        <td><?= $b->getTelefoneResponsavel() ?></td>
                         <td>
                             <?php
-                            if ($catequista_id == $i['id_catequista']) {
+                            if ($catequista_id == $b->getCatequistaId()) {
                             ?>
                                 <a href="#"
                                     data-bs-toggle="modal"
                                     data-bs-target="#editarCatequizandomodal"
-                                    data-id="<?= $b['id_catequizando'] ?>"
-                                    data-nome="<?= $b['nome_catequizando'] ?>"
-                                    data-nascimento="<?= $b['data_nascimento'] ?>"
-                                    data-telefone="<?= $b['telefone_responsavel'] ?>"
-                                    data-turma="<?= $b['turma_id'] ?>">
+                                    data-id="<?= $b->getId() ?>"
+                                    data-nome="<?= $b->getNomeCatequizando() ?>"
+                                    data-nascimento="<?= $b->getDataNascimento() ?>"
+                                    data-telefone="<?= $b->getTelefoneResponsavel() ?>"
+                                    data-turma="<?= $b->getTurmaId()?>">
                                     <i class="fa-solid fa-pen-to-square" style="color: rgb(116,192,252);"></i>
                                 </a>
 
-                                <a href="../../controller/catequizando/deleteCatequizando.php?id=<?= $b['id_catequizando'] ?>&turma_id=<?= $turma_id ?>&tela=2"> <i class="fa-solid fa-trash" style="color: rgb(232,75,75);"></i>
+                                <a href="../../Controller/CatequizandoController/DeleteCatequizando.php?id=<?= $b->getId() ?>&turma_id=<?= $b->getTurmaId() ?>&tela=2"> <i class="fa-solid fa-trash" style="color: rgb(232,75,75);"></i>
                                 </a>
                             <?php } ?>
                         </td>

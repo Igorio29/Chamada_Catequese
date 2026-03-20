@@ -34,6 +34,35 @@
             return $turmas;
         }
 
+        public function listarPorCatequista($catequista_id){
+            $sql = "SELECT t.*, u.nome_catequista 
+                    FROM tab_turma t 
+                    INNER JOIN tab_usuario u ON u.id_catequista = t.catequista_id
+                    WHERE t.catequista_id = ?
+                    ORDER BY t.etapa_turma ASC";
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("i", $catequista_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            $turmas = [];
+
+            while($row = $result->fetch_assoc()){
+                $turma = new Turma(
+                    $row['etapa_turma'],
+                    $row['ano_turma'],
+                    $row['catequista_id'],
+                    $row['nome_catequista'],
+                    $row['id_turma']
+                );
+
+                $turmas[] = $turma;
+            }
+
+            return $turmas;
+        }
+
         //MÉTODO QUE CRIA UMA TURMA;
         public function criar($etapa_turma, $ano_turma, $catequista_id){
             $sql = "INSERT INTO tab_turma (etapa_turma, ano_turma, catequista_id)

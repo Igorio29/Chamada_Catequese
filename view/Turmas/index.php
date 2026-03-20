@@ -408,7 +408,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                                             <i class="fa-solid fa-pen-to-square" style="color: rgb(116,192,252);"></i>
                                         </a>
 
-                                        <a href="../../controller/TurmasController/deletarTurma.php?id=<?= $t->getId() ?>">
+                                        <a href="../../Controller/TurmasController/DeletarTurma.php?id=<?= $t->getId() ?>">
                                             <i class="fa-solid fa-trash" style="color: rgb(232,75,75);"></i>
                                         </a>
                                     <?php } ?>
@@ -446,7 +446,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                 </div>
 
 
-                <form action="../../controller/TurmasController/createTurma.php" method="POST">
+                <form action="../../Controller/TurmasController/CreateTurma.php" method="POST">
 
                     <div class="modal-body">
 
@@ -509,7 +509,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                     <button class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
-                <form action="../../controller/TurmasController/updateTurma.php" method="POST">
+                <form action="../../Controller/TurmasController/UpdateTurma.php" method="POST">
 
                     <div class="modal-body">
 
@@ -537,7 +537,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
 
                         <select name="catequista_id" id="catequista_id" class="form-select">
                             <?php foreach ($buscaUsuario as $u): ?>
-                                <option value="<?= $t->getCatequistaId() ?>">
+                                <option value="<?= $u['id_catequista'] ?>">
                                     <?= $u['id_catequista'] ?> -
                                     <?= $u['nome_catequista'] ?>
                                 </option>

@@ -14,19 +14,14 @@ if (!isset($_SESSION['id'])) {
 $catequista_id = $_SESSION['id'];
 include "../../conect.php";
 
-include "../../controller/catequizando/catequizandoAll.php";
+require_once __DIR__ . "/../../Repositories/CatequizandoRepository.php";
+$repository = new CatequizandoRepository($conn);
+$catequizandos = $repository->ListarAll();
 
-$stmt = $conn->prepare("
-SELECT t.etapa_turma, u.nome_catequista, t.id_turma 
-FROM tab_turma t
-JOIN tab_usuario u ON u.id_catequista = t.catequista_id
-WHERE t.catequista_id = ?
-");
+require_once __DIR__ . "/../../Repositories/TurmaRepository.php";
 
-$stmt->bind_param("i", $catequista_id);
-$stmt->execute();
-$resultTurmaAll = $stmt->get_result();
-$turma = $resultTurmaAll->fetch_all(MYSQLI_ASSOC);
+$turmaRepository = new TurmaRepository($conn);
+$turmas = $turmaRepository->ListarPorCatequista($catequista_id);
 $num_chamada = 1;
 ?>
 <!DOCTYPE html>
@@ -350,7 +345,7 @@ $num_chamada = 1;
                     </div>
 
 
-                    <form action="../../controller/catequizando/createCatequizando.php" method="POST">
+                    <form action="../../Controller/CatequizandoController/CreateCatequizando.php" method="POST">
 
                         <div class="modal-body">
 
@@ -381,10 +376,10 @@ $num_chamada = 1;
                                 <label class="form-label">Turma</label>
 
                                 <select name="turma_id" class="form-select">
-                                    <?php foreach ($turma as $u): ?>
-                                        <option value="<?= $u['id_turma'] ?>">
-                                            <?= $u['etapa_turma'] ?>º Etapa -
-                                            <?= $u['nome_catequista'] ?>
+                                    <?php foreach ($turmas as $u): ?>
+                                        <option value="<?= $u->getId() ?>">
+                                            <?= $u->getEtapa() ?>º Etapa -
+                                            <?= $u->getNomeCatequista() ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -426,7 +421,7 @@ $num_chamada = 1;
                     </div>
 
 
-                    <form action="../../controller/catequizando/updateCatequizando.php" method="POST">
+                    <form action="../../Controller/CatequizandoController/UpdateCatequizando.php" method="POST">
 
                         <div class="modal-body">
 
@@ -457,10 +452,10 @@ $num_chamada = 1;
                                 <label class="form-label">Turma</label>
 
                                 <select name="turma_id" id="edit_turma" class="form-select">
-                                    <?php foreach ($turma as $t): ?>
-                                        <option value="<?= $t['id_turma'] ?>">
-                                            <?= $t['etapa_turma'] ?>º Etapa -
-                                            <?= $t['nome_catequista'] ?>
+                                    <?php foreach ($turmas as $u): ?>
+                                        <option value="<?= $u->getId() ?>">
+                                            <?= $u->getEtapa() ?>º Etapa -
+                                            <?= $u->getNomeCatequista() ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -502,28 +497,28 @@ $num_chamada = 1;
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($catequizando as $b) { ?>
+                    <?php foreach ($catequizandos as $b) { ?>
                         <tr>
                             <th scope="row"><?php echo $num_chamada++; ?></th>
-                            <td><?= $b['nome_catequizando'] ?></td>
-                            <td><?= ($b['etapa_turma']) ?>º Etapa</td>
-                            <td><?= $b['nome_catequista'] ?></td>
+                            <td><?= $b->getNomeCatequizando() ?></td>
+                            <td><?= $b->getEtapaTurma() ?>º Etapa</td>
+                            <td><?= $b->getNomeCatequista() ?></td>
                             <td>
                                 <?php
-                                if ($catequista_id == $b['catequista_id']) {
+                                if ($catequista_id == $b->getCatequistaId()) {
                                 ?>
                                     <a href="#"
                                         data-bs-toggle="modal"
                                         data-bs-target="#editarCatequizandomodal"
-                                        data-id="<?= $b['id_catequizando'] ?>"
-                                        data-nome="<?= $b['nome_catequizando'] ?>"
-                                        data-nascimento="<?= $b['data_nascimento'] ?>"
-                                        data-telefone="<?= $b['telefone_responsavel'] ?>"
-                                        data-turma="<?= $b['turma_id'] ?>">
+                                        data-id="<?= $b->getId() ?>"
+                                        data-nome="<?= $b->getNomeCatequizando() ?>"
+                                        data-nascimento="<?= $b->getDataNascimento() ?>"
+                                        data-telefone="<?= $b->getTelefoneResponsavel() ?>"
+                                        data-turma="<?= $b->getTurmaId()?>">
                                         <i class="fa-solid fa-pen-to-square" style="color: rgb(116,192,252);"></i>
                                     </a>
 
-                                    <a href="../../controller/catequizando/deleteCatequizando.php?id=<?= $b['id_catequizando'] ?>&tela=1"> <i class="fa-solid fa-trash" style="color: rgb(232,75,75);"></i>
+                                    <a href="../../Controller/CatequizandoController/DeleteCatequizando.php?id=<?= $b->getId() ?>&tela=1"> <i class="fa-solid fa-trash" style="color: rgb(232,75,75);"></i>
                                     </a>
                                 <?php } ?>
                             </td>

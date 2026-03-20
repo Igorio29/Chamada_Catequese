@@ -199,7 +199,7 @@ $hora = date("H");
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="../Relatorios/index.php">
+                    <a class="nav-link" href="./Relatorios/index.php">
                         <i class="fa-solid fa-chart-column"></i>
                         Relatórios
                     </a>

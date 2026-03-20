@@ -1,11 +1,15 @@
 <?php
-    include ("../../conect.php");
+    require_once ("../../conect.php");
+    require_once ("../../repositories/TurmaRepository.php");
 
-    $id = $_GET['id'];
+    $id_turma = $_GET['id'];
 
-    $sqldelete = "DELETE FROM tab_turma WHERE id_turma = '$id'";
     usleep(500000); // 0.5 segundos
-    if($conn->query($sqldelete)){
+
+    $repository = new TurmaRepository($conn);
+    $result = $repository->deletar($id_turma);
+    
+    if($result){
         header("Location: ../../View/Turmas/index.php?delete=true");
         exit;
     }else{

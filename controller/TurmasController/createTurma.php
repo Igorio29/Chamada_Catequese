@@ -1,20 +1,18 @@
 <?php
-include "../../conect.php";
+session_start();
+require_once "../../repositories/TurmaRepository.php";
+require_once "../../conect.php";
+$etapa_turma = $_POST['etapa'];
+$ano_turma = $_POST['ano'];
+$catequista_id = $_SESSION['id'];
 
-$etapa_turma = $_POST['etapa_id'] ?? null;
-$ano_turma = $_POST['ano'] ?? null;
-$catequista_id = $_POST['catequista_id'] ?? null;
+$repository = new TurmaRepository($conn);
 
-if (!$etapa_turma || !$ano_turma || !$catequista_id) {
-    die("Dados do formulário incompletos");
-}
-
-$sql = "INSERT INTO tab_turma (etapa_turma, ano_turma, catequista_id)
-        VALUES ($etapa_turma, $ano_turma, $catequista_id)";
-usleep(500000); // 0.5 segundos
-if ($conn->query($sql)) {
-    header("Location: ../../View/Turmas/index.php?sucesso=true");
+$result = $repository->criar($etapa_turma, $ano_turma, $catequista_id);
+if ($result) {
+    header("location:" . "../../view/Turmas/index.php?sucesso=true");
     exit;
 } else {
-    header("location:" . "../../View/Turmas/index.php?success=false");
+        header("location:" . "../../view/Turmas/index.php?sucesso=false");
 }
+?>

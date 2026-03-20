@@ -7,11 +7,12 @@ if (time() > $_SESSION['expire']) {
     exit;
 }
 
-$catequista_id = $_SESSION['id'];
-include("../../controller/TurmasController/getTurmas.php");
-$result = $conn->query($sql);
-$busca = $result->fetch_all(MYSQLI_ASSOC);
+require_once "../../conect.php";
+require_once "../../repositories/TurmaRepository.php";
+$repo = new TurmaRepository($conn);
+$turmas = $repo->listar();
 
+$catequista_id = $_SESSION['id'];
 include("../../controller/login/getUsuario.php");
 $resultUsuario = $conn->query($sqlUsuario);
 $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
@@ -336,8 +337,8 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                 </li>
 
                 <li class="nav-item">
-                <a class="nav-link" href="../Relatorios/index.php">
-                <i class="fa-solid fa-chart-column"></i>
+                    <a class="nav-link" href="../Relatorios/index.php">
+                        <i class="fa-solid fa-chart-column"></i>
                         Relatórios
                     </a>
                 </li>
@@ -369,7 +370,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
 
         <div class="row g-4">
 
-            <?php foreach ($busca as $i): ?>
+            <?php foreach ($turmas as $t): ?>
 
                 <div class="col-12 col-sm-6 col-md-4">
 
@@ -378,36 +379,36 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
                         <div class="card-body">
                             <div class="etapa">
                                 <h5 class="card-title">
-                                    <?= htmlspecialchars($i['etapa_turma']) ?>ª Etapa - <?= htmlspecialchars($i['ano_turma']) ?>
+                                    <?= htmlspecialchars($t->getEtapa()) ?>ª Etapa - <?= htmlspecialchars($t->getAno()) ?>
                                 </h5>
                             </div>
                             <p class="card-text text-muted">
-                                Catequista: <?= htmlspecialchars($i['nome_catequista']) ?>
+                                Catequista: <?= htmlspecialchars($t->getNomeCatequista()) ?>
                             </p>
-                            <input type="hidden" name="" value="<?= htmlspecialchars($i['catequista_id']) ?>">
+                            <input type="hidden" name="" value="<?= htmlspecialchars($t->getCatequistaId()) ?>">
                             <hr>
 
                             <div class="d-flex justify-content-between">
 
-                                <a href="turma.php?id=<?= $i['id_turma'] ?>" class="btn btn-outline-primary btn-sm">
+                                <a href="turma.php?id=<?= $t->getId() ?>" class="btn btn-outline-primary btn-sm">
                                     Ver turma
                                 </a>
 
                                 <div>
                                     <?php
-                                    if ($catequista_id == $i['catequista_id']) {
+                                    if ($catequista_id == $t->getCatequistaId()) {
                                     ?>
                                         <a href="#"
                                             data-bs-toggle="modal"
                                             data-bs-target="#editarTurmaModal"
-                                            data-id="<?= $i['id_turma'] ?>"
-                                            data-etapa="<?= $i['etapa_turma'] ?>"
-                                            data-ano="<?= $i['ano_turma'] ?>"
-                                            data-catequista="<?= $i['catequista_id'] ?>">
+                                            data-id="<?= $t->getId() ?>"
+                                            data-etapa="<?= $t->getEtapa() ?>"
+                                            data-ano="<?= $t->getAno() ?>"
+                                            data-catequista="<?= $t->getCatequistaId() ?>">
                                             <i class="fa-solid fa-pen-to-square" style="color: rgb(116,192,252);"></i>
                                         </a>
 
-                                        <a href="../../controller/TurmasController/deletarTurma.php?id=<?= $i['id_turma'] ?>">
+                                        <a href="../../controller/TurmasController/deletarTurma.php?id=<?= $t->getId() ?>">
                                             <i class="fa-solid fa-trash" style="color: rgb(232,75,75);"></i>
                                         </a>
                                     <?php } ?>
@@ -453,7 +454,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
 
                             <label class="form-label">Etapa</label>
 
-                            <select name="etapa_id" class="form-select" required>
+                            <select name="etapa" class="form-select" required>
 
                                 <option value="" disabled selected>Selecione</option>
                                 <option value="1">1ª Etapa</option>
@@ -471,11 +472,9 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
 
                             <label class="form-label">Ano</label>
 
-                            <input type="number" name="ano" class="form-control" value="2026" required>
-
+                            <input type="number" name="ano" class="form-control" value="<?= date('Y') ?>" required>
                         </div>
                     </div>
-                    <input type="hidden" name="catequista_id" value="<?= $catequista_id ?>">
 
                     <div class="modal-footer">
 
@@ -538,7 +537,7 @@ $buscaUsuario = $resultUsuario->fetch_all(MYSQLI_ASSOC);
 
                         <select name="catequista_id" id="catequista_id" class="form-select">
                             <?php foreach ($buscaUsuario as $u): ?>
-                                <option value="<?= $u['id_catequista'] ?>">
+                                <option value="<?= $t->getCatequistaId() ?>">
                                     <?= $u['id_catequista'] ?> -
                                     <?= $u['nome_catequista'] ?>
                                 </option>
